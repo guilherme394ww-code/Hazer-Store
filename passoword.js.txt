@@ -1,0 +1,29 @@
+import bcrypt from 'bcryptjs';
+
+/**
+ * Hash password with bcrypt
+ * @param {string} password
+ * @returns {Promise<string>}
+ */
+export async function hashPassword(password) {
+	const salt = await bcrypt.genSalt(10);
+	return bcrypt.hash(password, salt);
+}
+
+/**
+ * Compare password with hash
+ * @param {string} password
+ * @param {string} hash
+ * @returns {Promise<boolean>}
+ */
+export async function comparePassword(password, hash) {
+	return bcrypt.compare(password, hash);
+}
+
+/**
+ * Generate secure random token
+ * @returns {string}
+ */
+export function generateToken() {
+	return require('crypto').randomBytes(32).toString('hex');
+}

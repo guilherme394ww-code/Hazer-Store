@@ -1,0 +1,66 @@
+/**
+ * Validates email format
+ * @param {string} email
+ * @returns {boolean}
+ */
+export function isValidEmail(email) {
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	return emailRegex.test(email);
+}
+
+/**
+ * Validates password strength
+ * Requires: min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
+ * @param {string} password
+ * @returns {boolean}
+ */
+export function isStrongPassword(password) {
+	if (password.length < 8) return false;
+	if (!/[A-Z]/.test(password)) return false;
+	if (!/[a-z]/.test(password)) return false;
+	if (!/[0-9]/.test(password)) return false;
+  if (!/[!@#$%^&*()_+\-=\[\]{}';:"\\|,.<>/? ]/.test(password)) return false;
+	return true;
+}
+
+/**
+ * Validates product data
+ * @param {object} product
+ * @returns {object} { valid: boolean, errors: string[] }
+ */
+export function validateProduct(product) {
+	const errors = [];
+
+	if (!product.name || typeof product.name !== 'string' || product.name.trim().length === 0) {
+		errors.push('Product name is required');
+	}
+
+	if (!product.description || typeof product.description !== 'string' || product.description.trim().length === 0) {
+		errors.push('Product description is required');
+	}
+
+	if (typeof product.price !== 'number' || product.price <= 0) {
+		errors.push('Product price must be a positive number');
+	}
+
+	if (!product.category || typeof product.category !== 'string' || product.category.trim().length === 0) {
+		errors.push('Product category is required');
+	}
+
+	if (!Array.isArray(product.sizes) || product.sizes.length === 0) {
+		errors.push('Product must have at least one size');
+	}
+
+	if (!Array.isArray(product.colors) || product.colors.length === 0) {
+		errors.push('Product must have at least one color');
+	}
+
+	if (typeof product.stock !== 'number' || product.stock < 0) {
+		errors.push('Product stock must be a non-negative number');
+	}
+
+	return {
+		valid: errors.length === 0,
+		errors,
+	};
+}

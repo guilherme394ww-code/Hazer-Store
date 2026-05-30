@@ -1,0 +1,28 @@
+import crypto from 'crypto';
+
+/**
+ * Generate secure random token
+ * @returns {string}
+ */
+export function generateToken() {
+	return crypto.randomBytes(32).toString('hex');
+}
+
+/**
+ * Generate token expiration time (1 hour from now)
+ * @returns {string} ISO string
+ */
+export function generateTokenExpiration() {
+	const expiresAt = new Date();
+	expiresAt.setHours(expiresAt.getHours() + 1);
+	return expiresAt.toISOString();
+}
+
+/**
+ * Check if token is expired
+ * @param {string} expiresAt ISO string
+ * @returns {boolean}
+ */
+export function isTokenExpired(expiresAt) {
+	return new Date(expiresAt) < new Date();
+}
